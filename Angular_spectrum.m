@@ -25,7 +25,7 @@ IST(A) = 1;
 
 %% УГЛОВОЙ СПЕКТР
 global z 
-z = 20;
+z = 200;
 hh = (pi/Lx)^2;
 %Расчёт углового спектра(БПФ):
 %F =(fft2(IST));
@@ -34,12 +34,12 @@ F = fftshift(fft2(IST));
 
 for n = 1:2*N
     for m = 1:2*M
-%         kx = (n-N)*pi/Lx;
-%         ky = (m-M)*pi/Ly;
-        S(n,m) = F(n,m)*exp((-1i*z/(2*k))*((n-N)^2+(m-M)^2)*hh);     
+        kx = (n-N)*pi/Lx;
+        ky = (m-M)*pi/Ly;
+        S(n,m) = F(n,m)*exp(1i*z*sqrt(k^2-kx^2-ky^2));     
     end
 end
-%   pcolor(abs(S));
+%  pcolor(abs(S));
 %Обратное БПФ:     
  Res =ifft2(S)/4/pi^2;
 % pcolor(abs(Res));
@@ -51,7 +51,9 @@ Fobr = fftshift(fft2(Res_0));
 
 for n = 1:2*N
     for m = 1:2*M
-        Sobr(n,m) = Fobr(n,m)*exp((-1i*z/(2*k))*((n-N)^2+(m-M)^2)*hh);     
+        kx = (n-N)*pi/Lx;
+        ky = (m-M)*pi/Ly;
+        Sobr(n,m) = Fobr(n,m)*exp(-1i*z*sqrt(k^2-kx^2-ky^2));     
     end
 end
 
